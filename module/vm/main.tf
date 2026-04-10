@@ -47,7 +47,7 @@ resource "azurerm_linux_virtual_machine" "webInstance" {
   os_disk {
     name                 = "OsDisk-${var.project}-${var.env}"
     caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
