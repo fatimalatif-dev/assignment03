@@ -37,6 +37,12 @@ jobs:
       - name: Terraform validate
         run: terraform validate
 
+      - name: Create Workspace (if not exists)
+        run: terraform workspace new dev || true
+
+      - name: Select Workspace
+        run: terraform workspace select dev
+
       - name: Terraform Plan
         run: terraform plan
 
