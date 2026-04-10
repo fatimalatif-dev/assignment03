@@ -14,7 +14,7 @@ module "vnet" {
   project          = local.project
   env              = local.env
   location         = "East US"                      //module.resourceGroup.rgLocation
-  rgGroup          = "kml_rg_main-9299b955689d4ad0" //module.resourceGroup.resourceGroup
+  rgGroup          = "kml_rg_main-7f95962493ea46f6" //module.resourceGroup.resourceGroup
   cidrRange        = ["10.0.0.0/16"]
   publicCidrRange  = ["10.0.1.0/24"]
   privateCidrRange = ["10.0.10.0/24"]
@@ -25,7 +25,7 @@ module "webSecurityGroup" {
   project  = local.project
   env      = local.env
   location = "East US"                      //module.resourceGroup.rgLocation
-  rgGroup  = "kml_rg_main-9299b955689d4ad0" //module.resourceGroup.resourceGroup
+  rgGroup  = "kml_rg_main-7f95962493ea46f6" //module.resourceGroup.resourceGroup
   #   location = module.resourceGroup.rgLocation
   #   rgGroup  = module.resourceGroup.resourceGroup
 }
@@ -35,7 +35,7 @@ module "virtualMachine" {
   project  = local.project
   env      = local.env
   location = "East US"                      //module.resourceGroup.rgLocation
-  rgGroup  = "kml_rg_main-9299b955689d4ad0" //module.resourceGroup.resourceGroup
+  rgGroup  = "kml_rg_main-7f95962493ea46f6" //module.resourceGroup.resourceGroup
   #   rgGroup        = module.resourceGroup.resourceGroup
   userName       = "useradmin"
   passWord       = "8weR@888888"
@@ -48,7 +48,7 @@ module "webBlobStorage" {
   project  = local.project
   env      = local.env
   location = "East US"                      //module.resourceGroup.rgLocation
-  rgGroup  = "kml_rg_main-9299b955689d4ad0" //module.resourceGroup.resourceGroup
+  rgGroup  = "kml_rg_main-7f95962493ea46f6" //module.resourceGroup.resourceGroup
   #   location = module.resourceGroup.rgLocation
   #   rgGroup  = module.resourceGroup.resourceGroup
 }
