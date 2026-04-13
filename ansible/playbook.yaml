@@ -1,0 +1,10 @@
+- name: Installation of Docker and docker compose
+  hosts: azure
+  become: true
+  gather_facts: true
+  roles:
+    - ./roles/docker_role
+    - ./roles/dockercompose_role
+    - ./roles/nginx_role
+    - ./roles/updatenginx_role
+  

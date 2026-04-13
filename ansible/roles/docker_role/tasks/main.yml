@@ -1,0 +1,74 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/docker_role
+- name: Check if Docker is installed
+  command: docker -v 
+  register: isdocker_installed
+  ignore_errors: true
+  notify:
+    - Docker status
+      
+- name: Get the docker status
+  debug:
+    msg: "Docker installation status: {{ isdocker_installed.rc }}"
+  
+
+- name : installed docker based on condition
+  block:   
+    - name: Update apt cache 
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Add Docker's dependencies 
+      ansible.builtin.apt:
+        name: "{{docker_dependencies}}"
+        state: latest
+        update_cache: yes
+            
+    - name: Create keyrings directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Add Docker GPG key
+      shell: |
+        curl -fsSL {{ docker_gpg }} | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      args:
+        creates: /etc/apt/keyrings/docker.gpg
+
+    - name: Set permission for Docker GPG key
+      file:
+        path: /etc/apt/keyrings/docker.gpg
+        mode: '0644'
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] {{ docker_repo }} {{ ansible_facts['distribution_release'] }} stable"
+        state: present
+
+    - name: Update apt cache after adding repo
+      apt:
+        update_cache: yes
+
+    - name: Install Docker packages
+      ansible.builtin.apt:
+        name: "{{ docker_packages}}"
+        state: latest
+        update_cache: yes
+   
+    - name: Ensure Docker group exists
+      become: yes
+      ansible.builtin.group:
+        name: docker
+        state: present
+    
+    - name: Add User to docker group
+      become: yes
+      ansible.builtin.user:
+        name: "{{ ansible_user_id}}"
+        groups: docker 
+        append: true 
+
+  when: isdocker_installed.rc != 0
+

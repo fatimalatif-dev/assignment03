@@ -1,0 +1,9 @@
+
+- name: Validate nginx config
+  command: nginx -t
+  changed_when: false
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
